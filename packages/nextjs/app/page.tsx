@@ -224,7 +224,7 @@ const Home: NextPage = () => {
         </p>
         <h1 className="text-3xl font-bold sm:text-5xl">Uniswap V2 机制教学池</h1>
         <p className="mt-4 max-w-3xl text-neutral-content/75">
-          用无价值的 COURSE 教学币观察 x · y = k、0.30% 手续费、价格影响和 LP 份额。仅限测试网教学，绝不使用真实资产。
+          用无价值的 COURSE 教学币观察 x · y = k、0.50% 手续费、价格影响和 LP 份额。仅限测试网教学，绝不使用真实资产。
         </p>
         {!contractsReady && (
           <div className="alert alert-warning mt-6 text-warning-content">

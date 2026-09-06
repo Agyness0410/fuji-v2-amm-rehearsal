@@ -478,8 +478,8 @@ const presentation = Presentation.create({
   });
   const rows = [
     ["输入", "10.000 AVAX", C.ice],
-    ["扣除 0.3% 费用后参与定价", "9.970 AVAX", C.redPale],
-    ["预计得到", "≈ 9.066 COURSE", C.greenPale],
+    ["扣除 0.5% 费用后参与定价", "9.950 AVAX", C.redPale],
+    ["预计得到", "≈ 9.050 COURSE", C.greenPale],
   ];
   rows.forEach(([label, value, fill], i) => {
     const y = 212 + i * 100;
@@ -517,8 +517,8 @@ const presentation = Presentation.create({
     color: C.ink,
   });
   notes(slide, [
-    "计算：amountInWithFee=10×0.997=9.97；amountOut=100×9.97/(100+9.97)≈9.066。",
-    `Uniswap v2 pools and 0.3% fee: ${sources.uniswapPools}`,
+    "计算：amountInWithFee=10×0.995=9.95；amountOut=100×9.95/(100+9.95)≈9.050。",
+    `Uniswap v2 pools and 0.5% fee: ${sources.uniswapPools}`,
   ]);
 }
 
@@ -924,7 +924,7 @@ const presentation = Presentation.create({
     color: C.muted,
   });
   const tasks = [
-    ["A", "手续费实验", "比较 0.3% 与自定义费率的 amountOut 和 k"],
+    ["A", "手续费实验", "比较 0.5% 与自定义费率的 amountOut 和 k"],
     ["B", "Claim 数量", "改变领取数量，并讨论每地址一次的边界"],
     ["C", "Claim 规则", "修改领取条件，并用失败测试说明新规则"],
     ["D", "单笔限额", "超过阈值时 revert，并给出可读错误"],

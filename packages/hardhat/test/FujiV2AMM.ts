@@ -66,7 +66,7 @@ describe("FujiV2AMM", function () {
       const { token, amm } = await networkHelpers.loadFixture(deployFixture);
 
       expect(await amm.token()).to.equal(await token.getAddress());
-      expect(await amm.FEE_BPS()).to.equal(30n);
+      expect(await amm.FEE_BPS()).to.equal(50n);
       expect(await amm.BPS_DENOMINATOR()).to.equal(10_000n);
       expect(await amm.totalShares()).to.equal(0n);
       const [avaxReserve, tokenReserve] = await amm.getReserves();
@@ -206,10 +206,10 @@ describe("FujiV2AMM", function () {
   });
 
   describe("quotes and swaps", function () {
-    it("quotes the x*y=k output with the 30 bps fee", async function () {
+    it("quotes the x*y=k output with the 50 bps fee", async function () {
       const { amm } = await networkHelpers.loadFixture(initializedFixture);
       const amountIn = ethers.parseEther("1");
-      const amountInWithFee = amountIn * 9_970n;
+      const amountInWithFee = amountIn * 9_950n;
       const expected = (amountInWithFee * INITIAL_TOKENS) / (INITIAL_AVAX * 10_000n + amountInWithFee);
 
       expect(await amm.quoteAvaxToToken(amountIn)).to.equal(expected);

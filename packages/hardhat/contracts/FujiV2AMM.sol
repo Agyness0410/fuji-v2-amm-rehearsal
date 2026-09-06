@@ -12,7 +12,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 contract FujiV2AMM is ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    uint256 public constant FEE_BPS = 30;
+    uint256 public constant FEE_BPS = 50;
     uint256 public constant BPS_DENOMINATOR = 10_000;
 
     IERC20 public immutable token;
@@ -60,7 +60,7 @@ contract FujiV2AMM is ReentrancyGuard {
         return liquidityOf[provider];
     }
 
-    /// @notice Quote an exact input with a 0.30% LP fee using x*y=k.
+    /// @notice Quote an exact input with a 0.50% LP fee using x*y=k.
     function getAmountOut(uint256 amountIn, uint256 reserveIn, uint256 reserveOut)
         public
         pure
