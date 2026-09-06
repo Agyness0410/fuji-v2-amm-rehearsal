@@ -1,0 +1,51 @@
+name: Test and build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22.13.0
+          cache: yarn
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Compile and test contracts
+        run: yarn ci:contracts
+
+      - name: Start local chain, deploy, and generate frontend contracts
+        run: |
+          nohup yarn chain > /tmp/fuji-v2-hardhat.log 2>&1 &
+          for attempt in {1..30}; do
+            if curl --silent --fail \
+              --header 'content-type: application/json' \
+              --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' \
+              http://127.0.0.1:8545 > /dev/null; then
+              yarn deploy
+              exit $?
+            fi
+            sleep 1
+          done
+          cat /tmp/fuji-v2-hardhat.log
+          exit 1
+
+      - name: Typecheck, lint, and build frontend
+        run: yarn ci:frontend
