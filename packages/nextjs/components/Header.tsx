@@ -40,8 +40,8 @@ export const HeaderMenuLinks = () => {
               href={href}
               passHref
               className={`${
-                isActive ? "bg-base-300" : ""
-              } hover:bg-base-300 focus:!bg-base-300 h-full px-4 text-sm gap-2 flex items-center whitespace-nowrap`}
+                isActive ? "bg-primary text-primary-content" : ""
+              } hover:bg-primary hover:text-primary-content focus:!bg-primary focus:!text-primary-content h-full px-4 text-sm gap-2 flex items-center whitespace-nowrap`}
             >
               {icon}
               <span>{label}</span>
@@ -66,7 +66,7 @@ export const Header = () => {
   });
 
   return (
-    <div className="sticky lg:static top-0 navbar bg-base-100 min-h-16 shrink-0 justify-between z-20 border-b-2 border-base-300 p-0 sm:px-2">
+    <div className="navbar sticky top-0 z-20 min-h-16 shrink-0 justify-between border-b border-base-300 bg-base-100 p-0 sm:px-2 lg:static">
       <div className="navbar-start w-auto self-stretch">
         <details className="dropdown" ref={burgerMenuRef}>
           <summary className="ml-1 btn btn-ghost lg:hidden hover:bg-transparent">
@@ -81,13 +81,20 @@ export const Header = () => {
             <HeaderMenuLinks />
           </ul>
         </details>
-        <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="flex relative w-10 h-10">
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
+        <Link href="/" passHref className="ml-3 hidden shrink-0 items-center gap-3 sm:flex lg:mr-6">
+          <div className="relative h-9 w-[108px] sm:h-10 sm:w-[120px]">
+            <Image
+              alt="Herstory"
+              className="cursor-pointer object-contain"
+              fill
+              priority
+              sizes="(max-width: 639px) 108px, 120px"
+              src="/herstory-logo-transparent.png"
+            />
           </div>
-          <div className="flex flex-col">
+          <div className="hidden flex-col border-l border-base-300 pl-3 xl:flex">
             <span className="font-bold leading-tight">Fuji V2 AMM</span>
-            <span className="text-xs">机制教学版</span>
+            <span className="brand-text-helper font-mono text-[11px] uppercase tracking-[0.08em]">机制教学版</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap h-full m-0 p-0 list-none">

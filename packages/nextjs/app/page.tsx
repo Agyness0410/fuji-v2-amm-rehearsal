@@ -42,9 +42,9 @@ const short = (value?: bigint, decimals = 18, digits = 5) => {
 };
 
 const Card = ({ title, step, children }: { title: string; step: string; children: ReactNode }) => (
-  <section className="rounded-3xl border border-base-300 bg-base-100 p-6 shadow-sm">
+  <section className="workflow-card border border-base-300 bg-base-100 p-6">
     <div className="mb-5 flex items-center gap-3">
-      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-content">
+      <span className="flex h-8 w-8 items-center justify-center bg-primary font-mono text-sm font-bold text-primary-content">
         {step}
       </span>
       <h2 className="text-xl font-semibold">{title}</h2>
@@ -67,8 +67,8 @@ const Field = ({
   disabled?: boolean;
 }) => (
   <label className="form-control w-full">
-    <span className="mb-2 text-sm text-base-content/70">{label}</span>
-    <div className="flex items-center rounded-2xl border border-base-300 bg-base-200 px-4 focus-within:border-primary">
+    <span className="brand-text-helper mb-2 text-sm">{label}</span>
+    <div className="field-shell flex items-center border border-base-300 bg-base-200 px-4 focus-within:border-primary">
       <input
         className="min-w-0 flex-1 bg-transparent py-3 text-lg outline-none"
         inputMode="decimal"
@@ -217,13 +217,13 @@ const Home: NextPage = () => {
   const busy = tokenIsMining || ammIsMining;
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-8">
-      <header className="mb-8 rounded-3xl bg-neutral px-6 py-8 text-neutral-content sm:px-10">
-        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+    <div className="amm-page mx-auto w-full max-w-7xl px-4 py-8 sm:px-8 lg:py-12">
+      <header className="amm-hero mb-10 bg-neutral px-6 py-8 text-neutral-content sm:px-10 sm:py-10">
+        <p className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.22em] text-neutral-content sm:text-sm">
           {targetNetwork.id === 43113 ? "Avalanche Fuji" : "Local Hardhat"} · chain {targetNetwork.id}
         </p>
-        <h1 className="text-3xl font-bold sm:text-5xl">Uniswap V2 机制教学池</h1>
-        <p className="mt-4 max-w-3xl text-neutral-content/75">
+        <h1 className="max-w-4xl text-4xl font-bold sm:text-6xl">Uniswap V2 机制教学池</h1>
+        <p className="mt-5 max-w-3xl text-base leading-relaxed text-neutral-content">
           用无价值的 COURSE 教学币观察 x · y = k、0.50% 手续费、价格影响和 LP 份额。仅限测试网教学，绝不使用真实资产。
         </p>
         {!contractsReady && (
@@ -240,24 +240,24 @@ const Home: NextPage = () => {
           ["k = x · y", `${(Number(formatEther(avaxReserve)) * Number(formatUnits(tokenReserve, 18))).toPrecision(6)}`],
           ["我的 LP 份额", short(userShares)],
         ].map(([label, value]) => (
-          <div key={label} className="rounded-2xl border border-base-300 bg-base-100 p-5">
-            <div className="text-sm text-base-content/60">{label}</div>
-            <div className="mt-2 break-all text-xl font-semibold">{value}</div>
+          <div key={label} className="metric-card border border-base-300 bg-base-100 p-5">
+            <div className="brand-text-helper font-mono text-xs uppercase tracking-[0.08em]">{label}</div>
+            <div className="mt-3 break-all text-2xl font-semibold">{value}</div>
           </div>
         ))}
       </section>
 
-      <section className="mb-8 grid gap-4 rounded-3xl border border-base-300 bg-base-100 p-6 md:grid-cols-3">
+      <section className="info-panel mb-8 grid gap-5 border border-base-300 bg-base-100 p-6 md:grid-cols-3">
         <div>
-          <div className="text-sm text-base-content/60">钱包余额</div>
+          <div className="brand-text-helper text-sm">钱包余额</div>
           <div className="mt-1 font-semibold">{nativeBalance ? short(nativeBalance.value) : "—"} AVAX</div>
           <div className="font-semibold">{short(tokenBalance)} COURSE</div>
         </div>
         <div>
-          <div className="text-sm text-base-content/60">AMM allowance</div>
+          <div className="brand-text-helper text-sm">AMM allowance</div>
           <div className="mt-1 font-semibold">{short(allowance)} COURSE</div>
         </div>
-        <div className="text-xs text-base-content/60">
+        <div className="brand-text-helper text-xs">
           <div>
             Token: {tokenContract ? <Address address={tokenContract.address} chain={targetNetwork} /> : "未部署"}
           </div>
@@ -286,7 +286,7 @@ const Home: NextPage = () => {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card step="1" title="领取教学币">
-          <p className="mb-5 text-sm text-base-content/65">
+          <p className="brand-text-secondary mb-5 text-sm">
             每个地址只能 Claim 一次。这不等于每人一次，也是课堂要讨论的限制。
           </p>
           <button
@@ -322,7 +322,7 @@ const Home: NextPage = () => {
               <Field label="首池配对数量" value={initialToken} onChange={setInitialToken} suffix="COURSE" />
             )}
           </div>
-          <p className="mt-4 text-sm text-base-content/65">
+          <p className="brand-text-secondary mt-4 text-sm">
             预计需要 {short(addPreview?.tokenRequired)} COURSE，预计获得 {short(addPreview?.shares)} LP；合约会校验最大
             Token 输入与最小 LP 输出。
           </p>
@@ -368,7 +368,7 @@ const Home: NextPage = () => {
             onChange={setSwapAmount}
             suffix={swapDirection === "avaxToToken" ? "AVAX" : "COURSE"}
           />
-          <p className="mt-4 text-sm text-base-content/65">
+          <p className="brand-text-secondary mt-4 text-sm">
             当前 quote：{short(swapQuote)} {swapDirection === "avaxToToken" ? "COURSE" : "AVAX"}；最小接收：
             {swapQuote && slippageBps !== undefined ? short(withSlippageDown(swapQuote)) : "—"}
           </p>
@@ -403,10 +403,10 @@ const Home: NextPage = () => {
           <Card step="5" title="移除流动性">
             <div className="grid gap-5 md:grid-cols-2">
               <Field label="销毁 LP 份额" value={removeShares} onChange={setRemoveShares} suffix="LP" />
-              <div className="rounded-2xl bg-base-200 p-4 text-sm">
+              <div className="estimate-panel border-l border-base-300 py-2 pl-4 text-sm">
                 <div>预计取回 {short(removePreview?.avax)} AVAX</div>
                 <div>预计取回 {short(removePreview?.token)} COURSE</div>
-                <div className="mt-2 text-base-content/60">两侧资产都使用相同滑点百分比计算最小输出。</div>
+                <div className="brand-text-helper mt-2">两侧资产都使用相同滑点百分比计算最小输出。</div>
               </div>
             </div>
             <button
@@ -433,7 +433,7 @@ const Home: NextPage = () => {
         </div>
       </div>
 
-      <aside className="mt-8 rounded-3xl border border-warning/40 bg-warning/10 p-6 text-sm">
+      <aside className="safety-note mt-8 border border-warning/60 bg-warning/10 p-6 text-sm leading-relaxed">
         <strong>安全边界：</strong> 滑点和 deadline 只能约束你愿意接受的结果，不能阻止价格操纵、MEV
         或错误的经济设计。本项目没有生产审计；Fuji 资产也只应来自测试网 faucet。
       </aside>
